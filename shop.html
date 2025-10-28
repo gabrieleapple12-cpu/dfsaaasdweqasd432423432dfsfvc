@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salterelli Shop 🛒</title>
+  <link rel="icon" type="image/x-icon" href="Logo.png">
+  <link rel="stylesheet" href="shop.css">
+</head>
+<body>
+  <audio id="musica" loop>
+    <source src="musica_halloween.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="cart-icon">
+    🛒 <span id="cart-count">0</span>
+  </div>
+
+  <div id="main-container">
+    <div class="container">
+      <h1>🛒 Salterelli in Vendita!</h1>
+      <p>Scegli i tuoi salterelli preferiti e aggiungili al carrello 🎉💀</p>
+
+      <div class="products">
+        <div class="product-item">
+          <h3>Salterello Normale (PREZZO SCONTATO)</h3>
+          <p>Il classico salterello, pronto a saltare ovunque!</p>
+          <p class="price">€0,20</p>
+          <button class="buy-button" data-name="Salterello Normale" data-price="0.2">Aggiungi al carrello</button>
+        </div>
+        <div class="product-item">
+          <h3>Salterello Pazzerello (Halloween Edition)</h3>
+          <p>Un salterello speciale per Halloween!</p>      
+          <p class="price">€0,30</p>
+          <button class="buy-button" data-name="Salterello Pazzerello" data-price="0.3">Aggiungi al carrello</button>
+        </div>
+      </div>
+      
+      <button class="back-button" onclick="location.href='index.html'">Torna alla Home 🏠</button>
+      <button class="login-button" id="admin-login-button">Admin Login 🔑</button>
+    </div>
+  </div>
+
+  <div id="checkout-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>🛒 Checkout</h2>
+      <div id="cart-items">
+        <p>Il carrello è vuoto.</p>
+      </div>
+      <p id="cart-total"><strong>Totale: €0.00</strong></p>
+      <form id="checkout-form">
+        <label for="zone">Seleziona la zona:</label>
+        <select id="zone" required>
+          <option value="">--Seleziona zona--</option>
+          <option value="Torraccia">Torraccia</option>
+          <option value="Casal Monastero">Casal Monastero</option>
+          <option value="San Basilio">San Basilio</option>
+        </select>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required>
+        <label for="cognome">Cognome:</label>
+        <input type="text" id="cognome" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <label for="instagram">Username Instagram:</label>
+        <input type="text" id="instagram" required>
+        <button type="submit" id="confirm-button">Conferma Ordine 💌</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="admin-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-admin">&times;</span>
+      <h2>Admin Login</h2>
+      <form id="admin-form">
+        <label for="admin-user">Username:</label>
+        <input type="text" id="admin-user" required>
+        <label for="admin-pass">Password:</label>
+        <input type="password" id="admin-pass" required>
+        <button type="submit">Accedi 🔑</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="message-box"></div>
+
+  <script src="shop.js"></script>
+  <script src="musica.js"></script>
+</body>
+</html>

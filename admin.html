@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Salterelli</title>
+<link rel="icon" type="image/x-icon" href="Logo.png">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<h1>Admin - Gestione Ordini</h1>
+<div id="orders-container"></div>
+<script>
+if(localStorage.getItem('adminAccess')!=='true'){
+  document.body.innerHTML='<h1>Accesso negato</h1>'
+}
+
+const container=document.getElementById('orders-container')
+let orders=JSON.parse(localStorage.getItem('orders')||'[]')
+
+function renderOrders(){
+  container.innerHTML=''
+  orders.forEach((o,i)=>{
+    let div=document.createElement('div')
+    div.className='order-item'
+    div.innerHTML=`
+      <p><strong>${o.nome} ${o.cognome}</strong> - ${o.email} - @${o.instagram} - Zona: ${o.zone}</p>
+      <p>Carrello: ${o.cart.map(c=>c.name+' x'+c.quantity).join(', ')}</p>
+      <div>Stato: <span id="status-${i}" class="status-badge status-${o.stato.replace(' ','\\ ')}">${o.stato}</span></div>
+      <div>
+        <button onclick="changeStatus(${i},'Completato')">Completato</button>
+        <button onclick="changeStatus(${i},'In corso')">In corso</button>
+        <button onclick="changeStatus(${i},'Cancellato')">Cancellato</button>
+        <button onclick="deleteOrder(${i})" style="background:#e67e22">Elimina</button>
+      </div>
+    `
+    container.appendChild(div)
+  })
+}
+
+function changeStatus(i,status){
+  orders[i].stato=status
+  localStorage.setItem('orders',JSON.stringify(orders))
+  renderOrders()
+}
+
+function deleteOrder(i){
+  if(confirm('Sei sicuro di voler eliminare questo ordine?')){
+    orders.splice(i,1)
+    localStorage.setItem('orders',JSON.stringify(orders))
+    renderOrders()
+  }
+}
+
+renderOrders()
+</script>
+</body>
+</html>
