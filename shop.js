@@ -85,7 +85,18 @@ checkoutForm.addEventListener('submit',e=>{
   if(cart.length===0){ showMessage("Il carrello è vuoto!",'error'); return }
 
   let orders=JSON.parse(localStorage.getItem('orders')||'[]')
-  orders.push({nome,cognome,email,instagram:insta,zone,cart,stato:'In corso'})
+  const adminAccess = localStorage.getItem('adminAccess') === 'true'
+orders.push({
+  nome,
+  cognome,
+  email,
+  instagram: insta,
+  zone,
+  cart,
+  stato: 'In corso',
+  userType: adminAccess ? 'admin' : 'user'
+})
+
   localStorage.setItem('orders',JSON.stringify(orders))
   cart=[]
   updateCartIcon()
