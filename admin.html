@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -17,22 +17,26 @@ if(localStorage.getItem('adminAccess')!=='true'){
 
 const container=document.getElementById('orders-container')
 let orders=JSON.parse(localStorage.getItem('orders')||'[]')
+const currentName=localStorage.getItem('currentName')||''
+const currentSurname=localStorage.getItem('currentSurname')||''
+const isAdmin=localStorage.getItem('adminAccess')==='true'
+let visibleOrders=isAdmin ? orders : orders.filter(o=>o.nome===currentName && o.cognome===currentSurname)
 
 function renderOrders(){
   container.innerHTML=''
-  orders.forEach((o,i)=>{
+  visibleOrders.forEach((o,i)=>{
     let div=document.createElement('div')
     div.className='order-item'
     div.innerHTML=`
       <p><strong>${o.nome} ${o.cognome}</strong> - ${o.email} - @${o.instagram} - Zona: ${o.zone}</p>
       <p>Carrello: ${o.cart.map(c=>c.name+' x'+c.quantity).join(', ')}</p>
       <div>Stato: <span id="status-${i}" class="status-badge status-${o.stato.replace(' ','\\ ')}">${o.stato}</span></div>
-      <div>
+      ${isAdmin?`<div>
         <button onclick="changeStatus(${i},'Completato')">Completato</button>
         <button onclick="changeStatus(${i},'In corso')">In corso</button>
         <button onclick="changeStatus(${i},'Cancellato')">Cancellato</button>
         <button onclick="deleteOrder(${i})" style="background:#e67e22">Elimina</button>
-      </div>
+      </div>`:''}
     `
     container.appendChild(div)
   })
@@ -41,6 +45,7 @@ function renderOrders(){
 function changeStatus(i,status){
   orders[i].stato=status
   localStorage.setItem('orders',JSON.stringify(orders))
+  visibleOrders=isAdmin ? orders : orders.filter(o=>o.nome===currentName && o.cognome===currentSurname)
   renderOrders()
 }
 
@@ -48,6 +53,7 @@ function deleteOrder(i){
   if(confirm('Sei sicuro di voler eliminare questo ordine?')){
     orders.splice(i,1)
     localStorage.setItem('orders',JSON.stringify(orders))
+    visibleOrders=isAdmin ? orders : orders.filter(o=>o.nome===currentName && o.cognome===currentSurname)
     renderOrders()
   }
 }
@@ -56,3 +62,5 @@ renderOrders()
 </script>
 </body>
 </html>
+
+
